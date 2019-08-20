@@ -56,7 +56,8 @@ try:
     the_page = resp.read()
     time.sleep(1)
 
-    # Update 2019-08-20 - I think that we can request yesterday's climate report (maybe at noon CT each day?) that it should always have the YESTERDAY line (which actually means today, because the report was prepared the next day)
+    # Update 2019-08-20
+    # I think that we can request today's climate report which contains yesterday's data (maybe at noon CT each day?).
     # So we request the 0819 date in the request, and the response header says
     # CLIMATE REPORT
     # NATIONAL WEATHER SERVICE CHANHASSEN MN
@@ -82,17 +83,6 @@ try:
         precip_yesterday_in = res.group(1)
     print "%s,%s" % (actualDate, precip_yesterday_in)
 
-    if False:
-        # during the first half of the day it reports YESTERDAY's precipitation
-        res = re.search(r'^PRECIPITATION \(IN\)\s*YESTERDAY\s*([0-9]*\.[0-9]*)\s*', the_page, re.MULTILINE)
-        if res:
-            precip_yesterday_in = res.group(1)
-            print "yesterday's precip:", precip_yesterday_in
-        # sometimes it reports TODAY's precipitation
-        res = re.search(r'^PRECIPITATION \(IN\)\s*TODAY\s*([0-9]*\.[0-9]*)\s*', the_page, re.MULTILINE)
-        if res:
-            precip_today_in = res.group(1)
-            print "today's precip:", precip_today_in
 except Exception as e:
     print "exception", e
     sys.exit(1)
